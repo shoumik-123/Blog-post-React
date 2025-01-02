@@ -117,7 +117,7 @@
   
 .card-content {
     padding: 20px; 
-    flex-grow: 1; /* Ensures content stretches to fill the card */
+    flex-grow: 1;
 }
 
 .card-date{
@@ -175,49 +175,49 @@
 
     .placeholder-posts {
         font-size: 48px;
-        text-align: center; /* Center align for better appearance */
+        text-align: center;
     }
 
     .search-div {
-        flex-direction: column; /* Stack search elements */
+        flex-direction: column; 
         gap: 15px;
     }
 
     .search-container {
-        width: 100%; /* Full width on smaller screens */
-        height: 60px; /* Adjust height */
+        width: 100%;
+        height: 60px; 
     }
 
     .search-input {
-        font-size: 18px; /* Smaller font for better fit */
-        padding: 15px 20px; /* Adjust padding */
+        font-size: 18px; 
+        padding: 15px 20px; 
     }
 
     .blogs {
-        gap: 40px; /* Reduce gap between cards */
-        justify-content: center; /* Center align cards */
+        gap: 40px; 
+        justify-content: center;
     }
 
     .card {
-        width: 100%; /* Full width */
-        max-width: 500px; /* Limit maximum width */
-        height: auto; /* Adjust height */
+        width: 100%;
+        max-width: 500px;
+        height: auto;
     }
 
     .card img {
-        height: auto; /* Maintain aspect ratio */
+        height: auto;
     }
 
     .card-content {
-        padding: 15px; /* Reduce padding */
+        padding: 15px;
     }
 
     .card-date p, .card-content p {
-        font-size: 18px; /* Smaller font size */
+        font-size: 18px;
     }
 
     .card-content h3 {
-        font-size: 24px; /* Adjust title size */
+        font-size: 24px;
     }
 
     .read-more {
@@ -236,7 +236,7 @@
     }
 
     .search-container {
-        height: 50px; /* Smaller search bar */
+        height: 50px; 
     }
 
     .search-input {
@@ -253,12 +253,12 @@
     }
 
     .card {
-        width: 100%; /* Full width for mobile */
-        max-width: 100%; /* Remove max-width constraint */
+        width: 100%; 
+        max-width: 100%;
     }
 
     .card-content h3 {
-        font-size: 20px; /* Smaller heading */
+        font-size: 20px;
     }
 
     .card-date p, .card-content p {
@@ -270,7 +270,7 @@
     }
 
     .img-div {
-        width: 100%; /* Full width for images */
+        width: 100%;
     }
 
     .card img {
