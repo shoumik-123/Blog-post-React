@@ -78,7 +78,7 @@ img{
     }
   
     .header img {
-      max-width: 150px; /* Smaller logo for tablets */
+      max-width: 150px;
     }
   
     .header-right {
@@ -114,7 +114,7 @@ img{
     }
   
     .header img {
-      max-width: 120px; /* Smaller logo for mobile */
+      max-width: 120px;
     }
   
     .header-right {
