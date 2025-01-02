@@ -1,0 +1,117 @@
+.review-container {
+    display: flex; /* Allow reviews to display side-by-side (optional) */
+    flex-wrap: wrap; /* Allow reviews to wrap onto multiple lines */
+    margin: 1rem -54px;    gap: 1rem;
+  }
+  
+  .review-card {
+    background-color: #fff;
+    border-radius: 8px;
+    padding: 1.5rem;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    margin-bottom: 1rem; 
+    width: 30%; /* Adjust as needed */
+  }
+  
+  .star-rating {
+    display: flex;
+    color: gold;
+  }
+  
+  .star {
+    margin-right: 2px;
+    background: none;
+    color: gold;
+    font-size: 24px;
+  }
+  
+  .reviewer-info {
+    display: flex;
+    align-items: center;
+    margin-top: 1rem;
+  }
+  
+  .reviewer-image {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin: 0;
+  }
+  
+  .reviewer-name,
+  .date {
+    margin: 0;
+    margin-left: 20px; /* Remove default margin for cleaner spacing */
+  }
+  
+  .date {
+    color: #888;
+    font-size: 0.9rem;
+  }
+
+.latest-review{
+  margin-right: auto;
+  margin-top: 80px;
+}
+
+
+
+
+
+/* Tablet (768px and below) */
+@media (max-width: 768px) {
+  .review-container {
+    margin: 1rem 0; /* Adjust margin for smaller screens */
+    gap: 0.5rem; /* Reduce the gap between cards */
+  }
+
+  .review-card {
+    width: 45%; /* Make cards smaller to fit more in a row */
+    padding: 1rem; /* Adjust padding for smaller screens */
+  }
+
+  .reviewer-info {
+    flex-direction: column; /* Stack image and name/date vertically */
+    align-items: flex-start; /* Align to the left */
+  }
+
+  .reviewer-name,
+  .date {
+    margin-left: 0;
+    margin-top: 5px; /* Add some space between name and date */
+  }
+}
+
+/* Mobile (480px and below) */
+@media (max-width: 480px) {
+  .review-container {
+    flex-direction: column; /* Stack all reviews vertically */
+    gap: 1rem; /* Increase spacing between cards */
+  }
+
+  .review-card {
+    width: 100%; /* Make cards full-width */
+    padding: 0.8rem; /* Reduce padding for smaller screens */
+  }
+
+  .reviewer-image {
+    width: 30px; /* Reduce image size */
+    height: 30px;
+  }
+
+  .star {
+    font-size: 20px; /* Adjust star size */
+  }
+
+  .reviewer-name {
+    font-size: 1rem; /* Adjust font size for names */
+  }
+
+  .date {
+    font-size: 0.8rem; /* Make date text smaller */
+  }
+}
+
+
+
+  
