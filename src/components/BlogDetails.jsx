@@ -24,7 +24,7 @@ const BlogDetails = () => {
     <div className="blog-details-container">
       <div className="blog-details-content">
         <img
-          src={blog.imgUrl}
+          src={blog.image}
           alt={blog.title}
           className="blog-details-image"
         />
@@ -33,12 +33,12 @@ const BlogDetails = () => {
             <div>
             <h1>{blog.title}</h1>
             <p className="blog-details-meta">
-               {blog.date} 
+               {blog.publishedAt} 
             </p>
             </div>
             <span className="category">{blog.category}</span>
           </div>
-          <p className="blog-details-teaser">{blog.teaser}</p>
+          <p className="blog-details-teaser">{blog.content}</p>
         </div>
       </div>
       

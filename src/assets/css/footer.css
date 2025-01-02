@@ -109,27 +109,18 @@ footer {
   
   /* Mobile (480px and below) */
   @media screen and (max-width: 480px) {
-    footer {
-      padding: 20px 10px;
-    }
-  
-    h3 {
-      font-size: 14px;
-    }
-  
-    p {
-      font-size: 12px;
-    }
+
   
     input[type="email"] {
       width: 100%;
       font-size: 14px;
+      margin: 0 auto;
     }
   
     button {
       width: 100%;
       font-size: 14px;
-      padding: 8px 10px;
+      margin: 0 auto;
     }
   }
   
