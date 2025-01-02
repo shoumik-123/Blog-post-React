@@ -13,10 +13,11 @@ const BlogDetails = () => {
     if (!blog) {
       navigate("/");
     }
+    window.scrollTo(0, 0);
   }, [blog, navigate]);
 
   if (!blog) {
-    return null; // Render nothing while navigating away
+    return null; 
   }
 
   return (
