@@ -17,3 +17,16 @@ Access the Application:
 
 Open your browser and navigate to http://localhost:5173
 
+
+
+# Blog Post React Application
+
+## Setup Instructions
+
+### Clone the Repository
+
+Run the following command to clone the repository:
+
+```bash
+git clone https://github.com/shoumik-123/Blog-post-React.git
+cd blog-posts
