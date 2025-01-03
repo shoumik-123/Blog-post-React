@@ -13,9 +13,48 @@ const Blog = () => {
   const [page, setPage] = useState(1); 
   const observerRef = useRef(null);
 
+  
+  // Function to retrieve click counts from localStorage
+  const getStoredClickCounts = () => {
+    const storedCounts = localStorage.getItem('clickCounts');
+    return storedCounts ? JSON.parse(storedCounts) : {}; // Parse stored counts or return empty object
+  };
+  
+  // Function to retrieve total clicks from localStorage
+  const getStoredTotalClicks = () => {
+    const storedTotalClicks = localStorage.getItem('totalClicks');
+    return storedTotalClicks ? parseInt(storedTotalClicks, 10) : 0; // Return total clicks or 0 if none
+  };
+  
+  // Function to store click counts in localStorage
+  const storeClickCounts = (clickCounts) => {
+    localStorage.setItem('clickCounts', JSON.stringify(clickCounts)); // Store as JSON string
+  };
+  
+  // Function to store total clicks in localStorage
+  const storeTotalClicks = (totalClicks) => {
+    localStorage.setItem('totalClicks', totalClicks.toString()); // Store total clicks as string
+  };
+
+  const [clickCounts, setClickCounts] = useState(getStoredClickCounts());  // Initialize with stored counts
+  const [totalClicks, setTotalClicks] = useState(getStoredTotalClicks());  // Initialize with stored total clicks
 
   const handleReadMore = async (id) => {
     try {
+
+      const newClickCounts = {
+        ...clickCounts,
+        [id]: (clickCounts[id] || 0) + 1, // Increment the click count for the current blog
+      };
+      setClickCounts(newClickCounts); // Update state
+      storeClickCounts(newClickCounts);
+
+
+      // Calculate the new total clicks
+      const newTotalClicks = Object.values(newClickCounts).reduce((total, count) => total + count, 0);
+      setTotalClicks(newTotalClicks); // Update total clicks state
+      storeTotalClicks(newTotalClicks);
+
       const blogData = await getSinglePost(id);  // Fetch the single post data using the ID
       navigate(`/details/${id}`, { state: { blog: blogData } });  // Pass the blog data to the details page
     } catch (error) {
@@ -83,7 +122,7 @@ const Blog = () => {
               <img src={blog.image || "https://via.placeholder.com/150"} alt={blog.title} />
               <div className="counter-box">
                 <span className="icon">👁️</span>
-                <span className="count">{blog.userId}</span>
+                <span className="count">{clickCounts[blog.id] || 0}</span>
               </div>
             </div>
             <div className="card-content">
@@ -103,7 +142,6 @@ const Blog = () => {
                 <span
                   className="read-more"
                   onClick={() => handleReadMore(blog.id)}
-                  // onClick={() => navigate(`/details/${blog.id}`)}handleReadMore
                 >
                   Read More
                 </span>
