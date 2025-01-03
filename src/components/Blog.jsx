@@ -17,46 +17,47 @@ const Blog = () => {
   // Function to retrieve click counts from localStorage
   const getStoredClickCounts = () => {
     const storedCounts = localStorage.getItem('clickCounts');
-    return storedCounts ? JSON.parse(storedCounts) : {}; // Parse stored counts or return empty object
+    return storedCounts ? JSON.parse(storedCounts) : {};
   };
   
   // Function to retrieve total clicks from localStorage
   const getStoredTotalClicks = () => {
     const storedTotalClicks = localStorage.getItem('totalClicks');
-    return storedTotalClicks ? parseInt(storedTotalClicks, 10) : 0; // Return total clicks or 0 if none
+    return storedTotalClicks ? parseInt(storedTotalClicks, 10) : 0;
   };
   
   // Function to store click counts in localStorage
   const storeClickCounts = (clickCounts) => {
-    localStorage.setItem('clickCounts', JSON.stringify(clickCounts)); // Store as JSON string
+    localStorage.setItem('clickCounts', JSON.stringify(clickCounts));
   };
   
   // Function to store total clicks in localStorage
   const storeTotalClicks = (totalClicks) => {
-    localStorage.setItem('totalClicks', totalClicks.toString()); // Store total clicks as string
+    localStorage.setItem('totalClicks', totalClicks.toString())
   };
 
-  const [clickCounts, setClickCounts] = useState(getStoredClickCounts());  // Initialize with stored counts
-  const [totalClicks, setTotalClicks] = useState(getStoredTotalClicks());  // Initialize with stored total clicks
+  const [clickCounts, setClickCounts] = useState(getStoredClickCounts()); 
+  const [totalClicks, setTotalClicks] = useState(getStoredTotalClicks()); 
 
   const handleReadMore = async (id) => {
     try {
 
       const newClickCounts = {
         ...clickCounts,
-        [id]: (clickCounts[id] || 0) + 1, // Increment the click count for the current blog
+        [id]: (clickCounts[id] || 0) + 1,
       };
-      setClickCounts(newClickCounts); // Update state
+      setClickCounts(newClickCounts);
       storeClickCounts(newClickCounts);
 
 
       // Calculate the new total clicks
       const newTotalClicks = Object.values(newClickCounts).reduce((total, count) => total + count, 0);
-      setTotalClicks(newTotalClicks); // Update total clicks state
+      setTotalClicks(newTotalClicks); 
       storeTotalClicks(newTotalClicks);
 
-      const blogData = await getSinglePost(id);  // Fetch the single post data using the ID
-      navigate(`/details/${id}`, { state: { blog: blogData } });  // Pass the blog data to the details page
+      const blogData = await getSinglePost(id); 
+      navigate(`/details/${id}`, { state: { blog: blogData } }); 
+      window.location.reload()
     } catch (error) {
       alert("Blog post not found.", error);
     }
@@ -121,7 +122,7 @@ const Blog = () => {
             <div className="img-div">
               <img src={blog.image || "https://via.placeholder.com/150"} alt={blog.title} />
               <div className="counter-box">
-                <span className="icon">👁️</span>
+                <i className="fas fa-eye"></i>
                 <span className="count">{clickCounts[blog.id] || 0}</span>
               </div>
             </div>
