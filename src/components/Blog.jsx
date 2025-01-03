@@ -1,66 +1,55 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import "../assets/css/blog.css";
 import { useNavigate } from "react-router-dom";
-import { getPosts , getSinglePost } from "../apiRequest/api"; // Import the getPosts function
+import { getPosts } from "../apiRequest/api"; 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch, faCalendarAlt } from "@fortawesome/free-solid-svg-icons";
 
 const Blog = () => {
   const navigate = useNavigate();
+  const [blogs, setBlogs] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [blogs, setBlogs] = useState([]); // State for holding fetched blogs
-  const [error, setError] = useState(null); // State for handling any errors
-  const [page, setPage] = useState(1); // For pagination control
+  const [page, setPage] = useState(1); 
+  const observerRef = useRef(null);
 
-  // Function to handle "Read More"
-  const handleReadMore = async (id) => {
-    try {
-      const blogData = await getSinglePost(id);  // Fetch the single post data using the ID
-      navigate(`/details/${id}`, { state: { blog: blogData } });  // Pass the blog data to the details page
-    } catch (error) {
-      alert("Blog post not found.", error);
-    }
-  };
-
-  // Fetch blogs from the API
+  // Function to fetch blogs from API
   const fetchBlogs = async (page) => {
     setLoading(true);
     try {
-      const data = await getPosts(page); // Fetch data using the getPosts function
-      setBlogs((prevBlogs) => [...prevBlogs, ...data]); // Append the new blogs to existing ones
-      setLoading(false);
-    } catch (err) {
-      setError("Error fetching data", err);
+      const data = await getPosts();
+      const paginatedData = data.slice((page - 1) * 6, page * 6);
+      setBlogs((prevBlogs) => [...prevBlogs, ...paginatedData]);
+    } catch (error) {
+      console.error("Error fetching blogs:", error);
+    } finally {
       setLoading(false);
     }
   };
 
-  // Handle scroll loading
-  const handleScroll = () => {
-    if (
-      window.innerHeight + window.scrollY >= document.body.offsetHeight &&
-      !loading
-    ) {
-      setPage((prevPage) => {
-        const newPage = prevPage + 1;
-        fetchBlogs(newPage); // Fetch more blogs on reaching the bottom
-        return newPage;
-      });
+  // IntersectionObserver callback
+  const handleObserver = (entries) => {
+    const [entry] = entries;
+    if (entry.isIntersecting) {
+      setPage((prevPage) => prevPage + 1); 
     }
   };
 
   useEffect(() => {
-    fetchBlogs(page); // Initial fetch of blogs when component mounts
+    fetchBlogs(page); 
+  }, [page]);
 
-    window.addEventListener("scroll", handleScroll);
+  useEffect(() => {
+    const observer = new IntersectionObserver(handleObserver, {
+      root: null, // Observe in the viewport
+      rootMargin: "0px",
+      threshold: 1.0, // Trigger when the target is fully visible
+    });
+    if (observerRef.current) observer.observe(observerRef.current);
+
     return () => {
-      window.removeEventListener("scroll", handleScroll);
+      if (observerRef.current) observer.unobserve(observerRef.current);
     };
-  }, [page]); // Fetch data whenever the page number changes
-
-  if (error) {
-    return <p>{error}</p>; // Display error message if there is an issue fetching the data
-  }
+  }, []);
 
   return (
     <div className="blog">
@@ -80,7 +69,7 @@ const Blog = () => {
         {blogs.map((blog) => (
           <div className="card" key={blog.id}>
             <div className="img-div">
-              <img src={blog.image} alt={blog.title} />
+              <img src={blog.image || "https://via.placeholder.com/150"} alt={blog.title} />
               <div className="counter-box">
                 <span className="icon">👁️</span>
                 <span className="count">{blog.userId}</span>
@@ -93,16 +82,16 @@ const Blog = () => {
                     icon={faCalendarAlt}
                     className="calendar-icon"
                   />{" "}
-                  {blog.publishedAt}
+                  {blog.publishedAt || "No date available"}
                 </p>
-                <p className="category">{blog.category}</p>
+                <p className="category">{blog.category || "Uncategorized"}</p>
               </div>
-              <h3>{blog.title}</h3>
+              <h3>{blog.title || "No title available"}</h3>
               <p className="teaser">
-                {blog.content.slice(0, 200)}...
+                {blog.body ? blog.body.slice(0, 200) : "No content available"}...
                 <span
                   className="read-more"
-                  onClick={() => handleReadMore(blog.id)}
+                  onClick={() => navigate(`/details/${blog.id}`)}
                 >
                   Read More
                 </span>
@@ -112,9 +101,11 @@ const Blog = () => {
         ))}
         {loading && (
           <p style={{ fontSize: "24px", fontWeight: 400 }}>
-            More posts loading ...
+            Loading more posts...
           </p>
         )}
+        {/* The observer target */}
+        <div ref={observerRef} style={{ height: "1px" }}></div>
       </div>
     </div>
   );
