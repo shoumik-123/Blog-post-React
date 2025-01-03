@@ -1,9 +1,10 @@
 import { useState, useEffect, useRef } from "react";
 import "../assets/css/blog.css";
 import { useNavigate } from "react-router-dom";
-import { getPosts } from "../apiRequest/api"; 
+import { getPosts, getSinglePost } from "../apiRequest/api"; 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch, faCalendarAlt } from "@fortawesome/free-solid-svg-icons";
+
 
 const Blog = () => {
   const navigate = useNavigate();
@@ -11,6 +12,16 @@ const Blog = () => {
   const [loading, setLoading] = useState(false);
   const [page, setPage] = useState(1); 
   const observerRef = useRef(null);
+
+
+  const handleReadMore = async (id) => {
+    try {
+      const blogData = await getSinglePost(id);  // Fetch the single post data using the ID
+      navigate(`/details/${id}`, { state: { blog: blogData } });  // Pass the blog data to the details page
+    } catch (error) {
+      alert("Blog post not found.", error);
+    }
+  };
 
   // Function to fetch blogs from API
   const fetchBlogs = async (page) => {
@@ -91,7 +102,8 @@ const Blog = () => {
                 {blog.body ? blog.body.slice(0, 200) : "No content available"}...
                 <span
                   className="read-more"
-                  onClick={() => navigate(`/details/${blog.id}`)}
+                  onClick={() => handleReadMore(blog.id)}
+                  // onClick={() => navigate(`/details/${blog.id}`)}handleReadMore
                 >
                   Read More
                 </span>
